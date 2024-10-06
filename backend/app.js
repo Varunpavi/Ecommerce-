@@ -1,13 +1,18 @@
-const express = require('express');
+import express from 'express';
+import dotenv from 'dotenv';
+import { connectDB } from './config/db.js';
+import expectJsonMiddleware from './middleware/expectJson.js'; 
+import userRoutes from './routes/userRoutes.js'
+dotenv.config();
 const app = express();
-const router = express.Router();
-
-router.get('/', (req, res) => {
-    res.json({ message: 'Hello, this is Node.js!' });
+connectDB();
+app.use(express.json()); 
+app.use(expectJsonMiddleware);
+app.get('/', (req, res) => {
+    res.status(200).json('Hello, MongoDB is connected!');
 });
-app.use('/', router);
+app.use('/api/users', userRoutes);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-console.log(`Server running on port ${port}`);
+app.listen(5000, () => {
+    console.log(`Server running at http://localhost:5000`);
 });
