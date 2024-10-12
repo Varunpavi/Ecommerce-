@@ -1,33 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [color, setColor] = useState("");
+  const [count , setCount] = useState(0);
+  useEffect(()=> {
+      const timer = setTimeout(() => {
+        setCount((count)=> count);
+      }, 2000);
+    return ()=> clearTimeout(timer);
+
+  },[]);
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {/* usestats */}
+        <div style={{backgroundColor:color,height:'20px'}}>
+        </div>
+        <h1 className='text-blue-100'>Type a color name or code:</h1>
+        <input
+          type="text"
+          name="colorInput"
+          onChange={(e) => setColor(e.target.value)}
+          value={color} 
+          placeholder="Enter color"
+          style={{ padding: '10px', fontSize: '16px', width: '100%', marginTop: '10px' }}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {/* useeffect */}
+      <button onClick={() => setCount(count + 1)}>Click</button>
+      <h1>I've rendered {count} times!</h1>
     </>
   )
 }
